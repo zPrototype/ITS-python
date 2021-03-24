@@ -40,7 +40,7 @@ def acEncrypt(a, b, plain_text):
     output = []
 
     # Error handling
-    if a not in key_table.keys() or b not in key_table.values():
+    if a not in key_table.keys():
         print("Error wrong key")
         print("''")
         exit()
@@ -55,4 +55,25 @@ def acEncrypt(a, b, plain_text):
     print(f"Encrypted message: {output}")
 
 
-acEncrypt(11, 23, "nachricht")
+# Aufgabe 5
+def acDecrypt(a, b, cypher_text):
+    output = []
+    # Error handling
+    if a not in key_table.keys():
+        print("Error wrong key")
+        print("''")
+        exit()
+
+    cypher_text = decode(cypher_text)
+    for i in range(len(cypher_text)):
+        y = key_table[a] * (cypher_text[i] - b) % 26
+        output.append(y)
+    print(encode(output))
+
+
+acDecrypt(11, 23, "IVYNTWXAY")
+
+# Aufgabe 6
+
+acEncrypt(3, 1, "strenggeheim")  # DGANOTTNWNZL
+acDecrypt(15, 8, "IFFYVQMJYFFDQ")  # affinechiffre
