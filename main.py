@@ -3,16 +3,14 @@ import re
 
 # Aufgabe 1
 def decode(text):
-    output = []
-    [output.append(ord(x) - 97) for x in re.sub('[^a-zA-Z]+', '', text.lower().strip())]
+    output = [ord(x) - 97 for x in re.sub('[^a-zA-Z]+', '', text.lower().strip())]
     print(f"Characters to integers: {output}")
     return output
 
 
 # Aufgabe 2
 def encode(char_list):
-    output = []
-    [output.append(chr(x + 97)) for x in char_list]
+    output = [chr(x + 97) for x in char_list]
     output = ''.join(output)
     print(f"Integer list to string: {output}")
     return output
@@ -56,7 +54,7 @@ def acEncrypt(a, b, plain_text):
 
 
 # Aufgabe 5
-def acDecrypt(a, b, cypher_text):
+def acDecrypt(a, b, cipher_text):
     output = []
     # Error handling
     if a not in key_table.keys():
@@ -64,16 +62,13 @@ def acDecrypt(a, b, cypher_text):
         print("''")
         exit()
 
-    cypher_text = decode(cypher_text)
-    for i in range(len(cypher_text)):
-        y = key_table[a] * (cypher_text[i] - b) % 26
+    cipher_text = decode(cipher_text)
+    for i in range(len(cipher_text)):
+        y = key_table[a] * (cipher_text[i] - b) % 26
         output.append(y)
     print(encode(output))
 
 
-acDecrypt(11, 23, "IVYNTWXAY")
-
 # Aufgabe 6
-
 acEncrypt(3, 1, "strenggeheim")  # DGANOTTNWNZL
 acDecrypt(15, 8, "IFFYVQMJYFFDQ")  # affinechiffre
