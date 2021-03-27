@@ -11,12 +11,11 @@ parser.add_argument("-k", "--key", help="Enter the key to decrypt or encrypt. e.
 parser.add_argument("-f", "--file", help="Path to the file you want to encrypt or decrypt", required=True)
 args = parser.parse_args()
 
-key = list(args.key)
-if len(key) != 2:
+if len(list(args.key)) != 2:
     print("Error!\nKey needs to consist of exactly two characters!")
     exit()
-a = ord(key[0]) - 97
-b = ord(key[1]) - 97
+a = ord(args.key[0]) - 97
+b = ord(args.key[1]) - 97
 
 with open(args.file, "r") as handle:
     content = handle.readlines()

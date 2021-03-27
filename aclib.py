@@ -55,7 +55,7 @@ def acDecrypt(a, b, cipher_text):
     if a not in key_table.keys():
         print("Error wrong key")
         print("''")
-        exit()
+        return ""
 
     cipher_text = decode(cipher_text)
     for i in range(len(cipher_text)):
