@@ -1,10 +1,11 @@
 import re
+import math
+from itertools import product
 
 
 # Aufgabe 1
 def decode(text):
-    output = [ord(x) - 97 for x in re.sub('[^a-z]+', '', text.lower().strip())]
-    print(f"Characters to integers: {output}")
+    output = [ord(x) - 97 for x in re.sub('[^a-zA-Z]+', '', text.lower().strip())]
     return output
 
 
@@ -12,7 +13,6 @@ def decode(text):
 def encode(char_list):
     output = [chr(x + 97) for x in char_list]
     output = ''.join(output)
-    print(f"Integer list to string: {output}")
     return output
 
 
@@ -49,8 +49,7 @@ def acEncrypt(a, b, plain_text):
         y = (a * plain_text[i] + b) % 26
         output.append(y)
         i += 1
-    output = ''.join(encode(output)).upper()
-    print(f"Encrypted message: {output}")
+    return ''.join(encode(output)).upper()
 
 
 # Aufgabe 5
@@ -60,13 +59,13 @@ def acDecrypt(a, b, cipher_text):
     if a not in key_table.keys():
         print("Error wrong key")
         print("''")
-        exit()
+        return ""
 
     cipher_text = decode(cipher_text)
     for i in range(len(cipher_text)):
         y = key_table[a] * (cipher_text[i] - b) % 26
-        output.append(y)
-    print(encode(output))
+        output.append(chr(y + 97))
+    return ''.join(output)
 
 
 # Aufgabe 6
@@ -80,15 +79,9 @@ def computeFrequencyTable(char_list):
     return frequency_table
 
 
-computeFrequencyTable([4, 8, 13, 11, 0, 13, 6, 4, 17, 19, 4, 23, 19, 14, 7, 13, 4, 18, 8, 13, 13])
-
-
 # Aufgabe 12
 def printFrequencyTable(freq_table):
     [print(f"{chr(key + 97)} : {value}") for key, value in freq_table.items()]
-
-
-printFrequencyTable(computeFrequencyTable([4, 8, 13, 11, 0, 13, 6, 4, 17, 19, 4, 23, 19, 14, 7, 13, 4, 18, 8, 13, 13]))
 
 
 # Aufgabe 13
@@ -97,9 +90,31 @@ def computeMostFrequentChars(freq_table, n):
     sorted_array.reverse()
     sorted_array = sorted_array[:n]
     sorted_array = list(map(lambda x: x[0], sorted_array))
-    print(sorted_array)
     return sorted_array
 
 
-computeMostFrequentChars(
-    computeFrequencyTable([4, 8, 13, 11, 0, 13, 6, 4, 17, 19, 4, 23, 19, 14, 7, 13, 4, 18, 8, 13, 13]), 6)
+# Aufgabe 14
+def computeKeyPairs(char_list):
+    output = [element for element in product(char_list, repeat=2) if element[0] != element[1]]
+    return output
+
+
+# Aufgabe 15
+def analyzeCipherText(cipher_text, char_pairs):
+    for element in char_pairs:
+        c_E = ord(element[0]) - 97
+        c_N = ord(element[1]) - 97
+        a = (3 * (c_N - c_E)) % 26
+        b = (c_E - 4 * a) % 26
+        if math.gcd(a, 26) != 1:
+            continue
+        decrypt = acDecrypt(a, b, cipher_text)
+        decrypt = ''.join(decrypt)
+        print(decrypt[:50])
+
+# secret = "DGANOTTNWNZL"
+# secret = list(secret)
+# freq_table = computeFrequencyTable(secret)
+# most_freq_chars = computeMostFrequentChars(freq_table, 6)
+# computeKeyPairs(most_freq_chars)
+# analyzeCipherText("DGANOTTNWNZL", [("n", "o")])
