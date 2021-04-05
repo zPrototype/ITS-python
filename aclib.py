@@ -1,13 +1,13 @@
-# Aufgabe 7
-
 import re
 
 
+# Aufgabe 1
 def decode(text):
     output = [ord(x) - 97 for x in re.sub('[^a-zA-Z]+', '', text.lower().strip())]
     return output
 
 
+# Aufgabe 2
 def encode(char_list):
     output = [chr(x + 97) for x in char_list]
     output = ''.join(output)
